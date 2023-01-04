@@ -1,8 +1,8 @@
 package org.inspien.container;
 
-import org.inspien.annotation.Run;
 import org.inspien.annotation.Autowired;
 import org.inspien.annotation.Component;
+import org.inspien.annotation.Run;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
@@ -10,7 +10,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class AnnotationBeanContainerTemplate extends BeanContainerTemplate {
     @Override
@@ -21,13 +23,20 @@ public class AnnotationBeanContainerTemplate extends BeanContainerTemplate {
                     new SubTypesScanner(false)
             );
 
+            if (nameClassMap == null) {
+                nameClassMap = new HashMap<>();
+            }
+
             Set<Class<?>> classSet = reflections.getSubTypesOf(Object.class);
-            nameClassMap = getClassWithComponent(classSet);
+            nameClassMap.putAll(getClassWithComponent(classSet));
         }
     }
 
     @Override
     protected void createInstances() {
+        if (beanContainer == null) {
+            beanContainer = new HashMap<>();
+        }
         for (Class aClass : nameClassMap.values()) {
             try {
                 beanContainer.put(aClass.getName(), aClass.getDeclaredConstructor().newInstance());
