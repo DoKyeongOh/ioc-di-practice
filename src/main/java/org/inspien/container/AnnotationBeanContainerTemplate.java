@@ -28,7 +28,7 @@ public class AnnotationBeanContainerTemplate extends BeanContainerTemplate {
             }
 
             Set<Class<?>> classSet = reflections.getSubTypesOf(Object.class);
-            nameClassMap.putAll(getClassWithComponent(classSet));
+            nameClassMap.putAll(getClassMapWithComponent(classSet));
         }
     }
 
@@ -94,7 +94,7 @@ public class AnnotationBeanContainerTemplate extends BeanContainerTemplate {
         }
     }
 
-    public Map<String, Class> getClassWithComponent(Set<Class<?>> classSet) {
+    public Map<String, Class> getClassMapWithComponent(Set<Class<?>> classSet) {
         Map<String, Class> classMap = new HashMap<>();
         for (Class aClass : classSet) {
             for (Annotation annotation : aClass.getAnnotations()) {
