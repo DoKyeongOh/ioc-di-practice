@@ -9,7 +9,7 @@ public class MyFirstComponent {
         System.out.println(this);
     }
 
-    public void print() {
-        System.out.println("This is my first component.");
+    public void print(String message) {
+        System.out.println(message);
     }
 }
