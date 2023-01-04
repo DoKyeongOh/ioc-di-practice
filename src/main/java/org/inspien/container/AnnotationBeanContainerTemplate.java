@@ -48,6 +48,8 @@ public class AnnotationBeanContainerTemplate extends BeanContainerTemplate {
                 throw new RuntimeException(e);
             } catch (NoSuchMethodException e) {
                 throw new RuntimeException(e);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -56,7 +58,7 @@ public class AnnotationBeanContainerTemplate extends BeanContainerTemplate {
     protected void injectBean() {
         for (Object bean : beanContainer.values()) {
             for (Field field : bean.getClass().getDeclaredFields()) {
-                if (!field.isAnnotationPresent(Autowired.class)) {
+                if (field.getAnnotation(Autowired.class) == null) {
                     continue;
                 }
                 String fieldName = field.getType().getName();
@@ -65,6 +67,7 @@ public class AnnotationBeanContainerTemplate extends BeanContainerTemplate {
                             + field + " in " + bean.getClass() + " is not in bean container!");
                 }
                 try {
+                    field.setAccessible(true);
                     field.set(bean, beanContainer.get(fieldName));
                 } catch (IllegalAccessException e) {
                     throw new RuntimeException(e);
