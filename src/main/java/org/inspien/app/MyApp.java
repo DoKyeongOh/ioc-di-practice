@@ -15,11 +15,8 @@ public class MyApp {
 
     @Run
     public void run() {
-        System.out.println("first - " + firstComponent);
-        firstComponent.print();
-        System.out.println();
-        System.out.println("second - " + secondComponent);
-        secondComponent.print();
+        firstComponent.print(firstComponent.toString());
+        secondComponent.print(secondComponent.toString());
     }
 
 
